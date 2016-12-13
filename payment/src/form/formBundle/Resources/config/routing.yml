@@ -1,0 +1,11 @@
+formform_homepage:
+    path:     /
+    defaults: { _controller: formformBundle:Default:index }
+
+formform_nom:
+    path:    /identifiant
+    defaults: { _controller: formformBundle:Default:identifiant}
+
+formform_commande:
+  path:    /commande
+  defaults: { _controller: formformBundle:Default:commande}

@@ -1,0 +1,65 @@
+{% extends "formformBundle::layout.html.twig" %}
+
+{% block prix %}
+<p>Voici les tarifs disponibles :</p>
+
+<div class="table-hover">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Age</th>
+				<th>Prix</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Enfant inférieur à 4 ans</th>
+				<th>Gratuit</th>
+			</tr>
+			<tr>
+				<th>Enfant entre 4 et 12 ans</th>
+				<th>8€</th>
+			</tr>
+			<tr>
+				<th>Adulte de plus de 12 ans</th>
+				<th>16€</th>
+			</tr>
+			<tr>
+				<th>Sénior, 60 ans et plus</th>
+				<th>12€</th>
+			</tr>
+	</table>
+</div>
+{% endblock %}
+
+{% block commande %}
+
+{{ form(form) }}
+<br />
+
+<p><b> TABLEAU 2 </b></p><br />
+
+
+	<form id="selection1" method="POST" action = "http://localhost/projet/Symfony/payment/web/app_dev.php/identifiant">
+	<div class="form-group">
+		<label for="date">Choisir une date</label>
+		<input type="date" name="date" id="date" class="form-control"><br /><br>
+		<label for-"nbPlace">Nombre de place</label>
+		<select id = nbPlace" name="nbPlace" size = 1">
+			<option>1
+			<option>2
+			<option>3
+			<option>4
+			<option>5
+			<option>6
+			<option>7
+			<option>8
+			<option>9
+			<option>10
+		</select><br /><br />
+
+		<input type="submit" class="btn btn-info" value="Commander">
+	</div>
+	</form>
+
+{% endblock %}

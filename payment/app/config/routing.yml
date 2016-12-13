@@ -1,0 +1,4 @@
+formform:
+    resource: "@formformBundle/Resources/config/routing.yml"
+    prefix:   /
+

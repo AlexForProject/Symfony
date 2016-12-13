@@ -1,0 +1,4 @@
+services:
+#    formform.example:
+#        class: form\formBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
