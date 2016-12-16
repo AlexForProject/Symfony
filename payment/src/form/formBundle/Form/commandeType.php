@@ -6,14 +6,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class jourType extends AbstractType
+class commandeType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date')->add('nbPersonne')        ;
+        $builder->add('date')->add('billet')->add('nbPlace')->add('prix')->add('jour')
+        ->add('individus','collection',[
+            'type' => new individuType,
+            'allow_add' => true,
+            'allow_delete' => true])        ;
     }
     
     /**
@@ -22,7 +26,7 @@ class jourType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'form\formBundle\Entity\jour'
+            'data_class' => 'form\formBundle\Entity\commande'
         ));
     }
 
@@ -31,7 +35,7 @@ class jourType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'form_formbundle_jour';
+        return 'form_formbundle_commande';
     }
 
 

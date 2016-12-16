@@ -36,13 +36,6 @@ class individu
     private $prenom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="billet", type="string", length=255)
-     */
-    private $billet;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="anniversaire", type="date")
@@ -50,11 +43,18 @@ class individu
     private $anniversaire;
 
     /**
-    * @ORM\ManyToOne(targetEntity="form\formBundle\Entity\jour")
+    * @ORM\ManyToOne(targetEntity="form\formBundle\Entity\commande", inversedBy="individus", cascade={"persist"})
     * @ORM\JoinColumn(nullable=false)
     */
-    private $jour;
+    private $commande;
 
+
+    /**
+     * @var prix
+     *
+     * @ORM\Column(name="prix", type="integer")
+     */
+    private $prix;
 
     /**
      * Get id
@@ -162,27 +162,76 @@ class individu
         return $this->anniversaire;
     }
 
+
     /**
-     * Set jour
+     * Set prix
      *
-     * @param \form\formBundle\Entity\jour $jour
+     * @param integer $prix
      *
      * @return individu
      */
-    public function setJour(\form\formBundle\Entity\jour $jour)
+    public function setPrix($prix)
     {
-        $this->jour = $jour;
+        $this->prix = $prix;
 
         return $this;
     }
 
     /**
-     * Get jour
+     * Get prix
      *
-     * @return \form\formBundle\Entity\jour
+     * @return integer
      */
-    public function getJour()
+    public function getPrix()
     {
-        return $this->jour;
+        return $this->prix;
+    }
+
+    /**
+     * Set commande
+     *
+     * @param \OC\PlatformBundle\Entity\commande $commande
+     *
+     * @return individu
+     */
+    public function setCommande(\OC\PlatformBundle\Entity\commande $commande)
+    {
+        $this->commande = $commande;
+
+        return $this;
+    }
+
+    /**
+     * Get commande
+     *
+     * @return \OC\PlatformBundle\Entity\commande
+     */
+    public function getCommande()
+    {
+        return $this->commande;
+    }
+
+    /**
+     * Set commandeId
+     *
+     * @param \form\formBundle\Entity\commande $commandeId
+     *
+     * @return individu
+     */
+    public function setCommandeId(\form\formBundle\Entity\commande $commandeId)
+    {
+        $this->commande_id = $commandeId;
+
+        return $this;
+    }
+
+    /**
+     * Get commandeId
+     *
+     * @return \form\formBundle\Entity\commande
+     */
+    public function getCommandeId()
+    {
+        return $this->commande_id;
     }
 }

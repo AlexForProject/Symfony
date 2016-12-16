@@ -4,6 +4,17 @@
 		<title>Commande</title>
 		<meta charset="utf-8">
     	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    	<style type="text/css">
+    		.form-horizontal .form-group
+    		{
+    			margin-right: 0px;
+    			margin-left: 0px;
+			}
+			#add_individu
+			{
+				margin-bottom: 30px;
+			}
+    	</style>
 	</head>
 	<body>
 	<div class="container">
@@ -15,16 +26,19 @@
 
 	<div class="row">
 		<div class="col-sm-1"></div>
-		<div class="col-xs-12 col-sm-4 col-md-4 centered">
+		<div class="col-xs-12 col-sm-3 col-md-3 centered">
 			{% block prix %}
 			{% endblock %}
 		</div>
-		<div class="col-xs-12 col-sm-6 col-md-6 centered">
+		<div class="col-xs-12 col-sm-7 col-md-7 centered">
 			{% block commande %}
 			{% endblock %}
 		</div>
 		<div class="col-sm-1"></div>
-
+	</div>
+	<div class="row">
+		{% block test %}
+		{% endblock %}
 	</div>
 	</body>
 </html>

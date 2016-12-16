@@ -1,0 +1,12 @@
+{% extends "formformBundle::layout.html.twig" %}
+
+{% block commande %}
+
+<p> Vous avez choisi des billets {{ billet }} pour le {{ date|date("d/m/Y") }}.</p><br />
+
+<ul>
+{% for individu in individus %}
+<li>{{ individu.nom }} {{ individu.prenom }} né le : {{ individu.date|date("d/m/Y") }}
+{% endfor %}
+</ul>
+{% endblock %}

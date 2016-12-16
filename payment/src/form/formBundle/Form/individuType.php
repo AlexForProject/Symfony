@@ -13,7 +13,7 @@ class individuType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('prenom')->add('billet')->add('anniversaire')->add('jour')        ;
+        $builder->add('nom')->add('prenom')->add('anniversaire')->add('prix')->add('commande')        ;
     }
     
     /**

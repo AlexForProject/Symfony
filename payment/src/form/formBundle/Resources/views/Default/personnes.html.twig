@@ -1,0 +1,10 @@
+{% extends "formformBundle::layout.html.twig" %}
+
+{% block prix %}
+{{id}}
+{{date|date("d/m/Y")}}
+{{billet}}
+{% for objet in commande %}
+{{commande.objet}}
+{% endfor %}
+{% endblock %}

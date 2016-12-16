@@ -2,10 +2,18 @@ formform_homepage:
     path:     /
     defaults: { _controller: formformBundle:Default:index }
 
-formform_nom:
-    path:    /identifiant
-    defaults: { _controller: formformBundle:Default:identifiant}
+formform_personnes:
+  path:    /personnes
+  defaults: { _controller: formformBundle:Default:personnes}
 
 formform_commande:
   path:    /commande
   defaults: { _controller: formformBundle:Default:commande}
+
+formform_recapitulatif:
+    path:    /recapitulatif
+    defaults: { _controller: formformBundle:Default:recapitulatif}
+
+formform_error:
+  path:    /error
+  defaults: { _ controller: formformBundle:Default:error}

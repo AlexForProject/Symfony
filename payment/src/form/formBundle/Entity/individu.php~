@@ -36,13 +36,6 @@ class individu
     private $prenom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="billet", type="string", length=255)
-     */
-    private $billet;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="anniversaire", type="date")
@@ -50,11 +43,18 @@ class individu
     private $anniversaire;
 
     /**
-    * @ORM\ManyToOne(targetEntity="form\formBundle\Entity\jour")
+    * @ORM\ManyToOne(targetEntity="form\formBundle\Entity\commande",inversedBy="individus", cascade={"persist"})
     * @ORM\JoinColumn(nullable=false)
     */
-    private $jour;
+    private $commande;
 
+
+    /**
+     * @var prix
+     *
+     * @ORM\Column(name="prix", type="integer")
+     */
+    private $prix;
 
     /**
      * Get id
@@ -161,5 +161,100 @@ class individu
     {
         return $this->anniversaire;
     }
-}
 
+    /**
+     * Set jour
+     *
+     * @param \form\formBundle\Entity\jour $jour
+     *
+     * @return individu
+     */
+    public function setJour(\form\formBundle\Entity\jour $jour)
+    {
+        $this->jour = $jour;
+
+        return $this;
+    }
+
+    /**
+     * Get jour
+     *
+     * @return \form\formBundle\Entity\jour
+     */
+    public function getJour()
+    {
+        return $this->jour;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param integer $prix
+     *
+     * @return individu
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return integer
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set commande
+     *
+     * @param \OC\PlatformBundle\Entity\commande $commande
+     *
+     * @return individu
+     */
+    public function setCommande(\OC\PlatformBundle\Entity\commande $commande)
+    {
+        $this->commande = $commande;
+
+        return $this;
+    }
+
+    /**
+     * Get commande
+     *
+     * @return \OC\PlatformBundle\Entity\commande
+     */
+    public function getCommande()
+    {
+        return $this->commande;
+    }
+
+    /**
+     * Set commandeId
+     *
+     * @param \form\formBundle\Entity\commande $commandeId
+     *
+     * @return individu
+     */
+    public function setCommandeId(\form\formBundle\Entity\commande $commandeId)
+    {
+        $this->commande_id = $commandeId;
+
+        return $this;
+    }
+
+    /**
+     * Get commandeId
+     *
+     * @return \form\formBundle\Entity\commande
+     */
+    public function getCommandeId()
+    {
+        return $this->commande_id;
+    }
+}

@@ -34,32 +34,8 @@
 
 {% block commande %}
 
+<p>Pour pouvoir vérifier la disponibilité des places, veuillez indiquer la date à laquelle vous souhaiter établir votre visite :</p>
 {{ form(form) }}
 <br />
-
-<p><b> TABLEAU 2 </b></p><br />
-
-
-	<form id="selection1" method="POST" action = "http://localhost/projet/Symfony/payment/web/app_dev.php/identifiant">
-	<div class="form-group">
-		<label for="date">Choisir une date</label>
-		<input type="date" name="date" id="date" class="form-control"><br /><br>
-		<label for-"nbPlace">Nombre de place</label>
-		<select id = nbPlace" name="nbPlace" size = 1">
-			<option>1
-			<option>2
-			<option>3
-			<option>4
-			<option>5
-			<option>6
-			<option>7
-			<option>8
-			<option>9
-			<option>10
-		</select><br /><br />
-
-		<input type="submit" class="btn btn-info" value="Commander">
-	</div>
-	</form>
 
 {% endblock %}

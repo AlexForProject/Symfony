@@ -1,11 +1,39 @@
 {% extends "formformBundle::layout.html.twig" %}
 
 {% block prix %}
-<p>Vous avez sélectionnés PLACES places pour le {{ date|date("d/m/Y") }}<br />
-Veuillez renseigner les champs pour chaque participant s'il vous plaît.</p><br />
+
+<div class="table-hover">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Age</th>
+				<th>Prix</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Enfant inférieur à 4 ans</th>
+				<th>Gratuit</th>
+			</tr>
+			<tr>
+				<th>Enfant entre 4 et 12 ans</th>
+				<th>8€</th>
+			</tr>
+			<tr>
+				<th>Adulte de plus de 12 ans</th>
+				<th>16€</th>
+			</tr>
+			<tr>
+				<th>Sénior, 60 ans et plus</th>
+				<th>12€</th>
+			</tr>
+	</table>
+</div>
 
 {% endblock %}
 
 {% block commande %}
-
+<p>Vous souhaitez établir votre visite le {{ date|date("d/m/Y") }}<br />
+Veuillez renseigner le nombre de personne présentes ce jour-ci ainsi que votre temps de visite.</p><br />
+{{ form(form) }}
 {% endblock %}
