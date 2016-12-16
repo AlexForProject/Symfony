@@ -1,10 +1,81 @@
 {% extends "formformBundle::layout.html.twig" %}
 
 {% block prix %}
-{{id}}
-{{date|date("d/m/Y")}}
-{{billet}}
-{% for objet in commande %}
-{{commande.objet}}
-{% endfor %}
+
+<p><b>Pour le {{date|date("d/m/Y")}}, vous avez commandé des billets de type {{ billet }}.</b></p><br />
+<p>Vous pouvez cliquer sur "Ajouter un individu" pour augmenter le nombre de personne et sur "Supprimer" pour en enlever.</p>
+{{totalCommande}}
+{% endblock %}
+
+{% block commande %}
+
+{# Le formulaire reste globalement le même#}
+
+<div class="well">
+	<h2>Ajout des individus </h2>
+  	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+	<div class="form-group">
+ 	{{ form_row(form.individus) }}
+  	<a href="#" id="add_individu" class="btn btn-default">Ajouter un individu</a>
+  	{{ form_row(form.commander) }}
+  	{{ form_widget(form.commander, {'attr': {'class': 'btn btn-info'}}) }}
+ 	</div>	
+  	{{ form_end(form) }}
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var $container = $('div#form_individus');
+
+    var index = $container.find(':input').length;
+
+    $('#add_individu').click(function(e) {
+      addIndividu($container);
+
+      e.preventDefault();
+      return false;
+    });
+
+    if (index == 0) {
+      addIndividu($container);
+    } else {
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+    function addIndividu($container) {
+      var template = $container.attr('data-prototype')
+        .replace(/__name__label__/g, 'Individu numéro n°' + (index+1))
+        .replace(/__name__/g,        index)
+      ;
+
+      var $prototype = $(template);
+
+      addDeleteLink($prototype);
+
+      $container.append($prototype);
+      index++;
+    }
+
+    function addDeleteLink($prototype) {
+      var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+      $prototype.append($deleteLink);
+
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault();
+        return false;
+      });
+    }
+
+    function addEspace($id){
+    	$id.append('<br />');
+    }
+  });
+</script>
+
 {% endblock %}

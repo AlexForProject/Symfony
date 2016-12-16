@@ -5,6 +5,7 @@ namespace form\formBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class individuType extends AbstractType
 {
@@ -13,7 +14,8 @@ class individuType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('prenom')->add('anniversaire')->add('prix')->add('commande')        ;
+        $builder->add('nom')->add('prenom')->add('anniversaire', DateType::class, array(
+    'years' => range(date('Y') -100, date('Y'))))        ;
     }
     
     /**

@@ -51,7 +51,7 @@ class commande
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="form\formBundle\Entity\individu", mappedBy="commande", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="form\formBundle\Entity\individu", mappedBy="commande", cascade={"persist"}) 
      * @ORM\JoinColumn(nullable=false)
      */
     private $individus;
@@ -169,7 +169,6 @@ class commande
     {
         $this->individus = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Add individus
      *

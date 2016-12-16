@@ -13,9 +13,9 @@ class commandeRepository extends \Doctrine\ORM\EntityRepository
 	public function getQuota($date)
 	{
 		$nbPlace=$this->createQueryBuilder('c')
-		->SELECT('COUNT(c.nbPlace)')
-		->WHERE('c.date=:date')
+		->andwhere('c.date = :date')
 		->setParameter('date', $date)
+		->SELECT('SUM(c.nbPlace) as somme')
 		->getQuery()
 		->getSingleScalarResult();
 

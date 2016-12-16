@@ -10,12 +10,11 @@ namespace form\formBundle\Repository;
  */
 class individuRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getNbIndividu($date)
+	public function getQuota($date)
 	{
 		$nbIndividu=$this->createQueryBuilder('i')
 		->SELECT('COUNT(i)')
-		->leftJoin('i.commande_id', 'c')
-		->WHERE('c.date=:date')
+		->WHERE('i.date=:date')
 		->setParameter('date', $date)
 		->getQuery()
 		->getSingleScalarResult();

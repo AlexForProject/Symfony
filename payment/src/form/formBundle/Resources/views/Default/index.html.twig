@@ -37,5 +37,40 @@
 <p>Pour pouvoir vérifier la disponibilité des places, veuillez indiquer la date à laquelle vous souhaiter établir votre visite :</p>
 {{ form(form) }}
 <br />
+<p>A partir de 14H, il n'est plus possible de commander en journée complète pour le jour-même</p>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+
+  	var ajd = new Date();
+	var billet = $('#form_billet');
+
+  	var month = $('#form_date_month');
+  	var day = $('#form_date_day');
+  	var year = $('#form_date_year');
+
+  	var form = $('.form-control');
+
+  	form.click(function(e){
+
+  		if((ajd.getMonth()+1) == month.val() && ajd.getDate() == day.val() && ajd.getFullYear() == year.val())
+  		{
+	  		if((ajd.getHours()) >= 14)
+	  		{
+	  			console.log("ok deuxième if");
+	  			billet.prop('checked', 'true');	
+	  			document.getElementById("form_billet").style.visibility = "hidden";
+	  		}
+  		}
+  		if((ajd.getMonth()+1) != month.val() || ajd.getDate() != day.val() || ajd.getFullYear() != year.val())
+  		{
+  			document.getElementById("form_billet").style.visibility = "visible";
+  		}
+  	})
+  });
+
+</script>
 {% endblock %}

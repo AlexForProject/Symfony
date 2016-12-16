@@ -51,7 +51,7 @@ class commande
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="form\formBundle\Entity\individu", mappedBy="commande", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="form\formBundle\Entity\individu", mappedBy="commande", cascade={"persist"}) 
      * @ORM\JoinColumn(nullable=false)
      */
     private $individus;
@@ -69,7 +69,7 @@ class commande
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param \Date $date
      *
      * @return commande
      */
@@ -83,7 +83,7 @@ class commande
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return \Date
      */
     public function getDate()
     {
@@ -169,7 +169,6 @@ class commande
     {
         $this->individus = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Add individus
      *

@@ -23,6 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class DefaultController extends Controller
@@ -35,7 +36,7 @@ class DefaultController extends Controller
         'method' => 'POST'
         ));
     	$formBuilder
-      	->add('date',           DateType::class)
+      	->add('date',           DateType::class, array('years'=>range(date('Y'), date('Y')+5)))
         ->add('billet',         CheckboxType::class, array(
           'label' => 'Préférer la demi-journée au lieu de la journée',
           'required' => false,))
@@ -58,15 +59,15 @@ class DefaultController extends Controller
 
           $repositoryCommande=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
           
+          $totalCommande=$repositoryCommande->getQuota($date);
+
           //check la date
-          $ajd = date('Y-m-d');
+          $ajd = new \DateTime();
 
           if($date < $ajd)
           {
             return $this->render('formformBundle:Default:error.html.twig');
           }
-
-          $totalCommande=$repositoryCommande->getQuota($date);
 
           if($totalCommande>=1000)
           {
@@ -95,6 +96,7 @@ class DefaultController extends Controller
       $date=$session->get('date');
       $billet=$session->get('billet');
       $id=$session->get('id');
+      $ajd=$session->get('ajd');
 
       if($billet == 1)
       {
@@ -107,7 +109,6 @@ class DefaultController extends Controller
 
       $commandeRepository=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
       $commande = $commandeRepository->find($id);
-      var_dump($commande);
 
       $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $commande, array(
         'method' => 'POST'
@@ -130,7 +131,15 @@ class DefaultController extends Controller
         {
           $personnes = $form->get('individus')->getData();
           $session->set('individus', $personnes);
-          $commande->addIndividus($personnes);
+          $nbPlace =  count($personnes);
+          for($i =0 ; $i < $nbPlace ; $i++)
+          {
+            $commande->addIndividus($personnes[$i]);
+          }
+          $commande->setNbPlace($nbPlace);
+          $em=$this->getDoctrine()->getManager();
+          $em->persist($commande);
+          $em->flush($commande);
           return $this->redirectToRoute('formform_recapitulatif');
         }
       }
