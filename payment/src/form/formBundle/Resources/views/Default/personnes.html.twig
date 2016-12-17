@@ -4,7 +4,7 @@
 
 <p><b>Pour le {{date|date("d/m/Y")}}, vous avez commandé des billets de type {{ billet }}.</b></p><br />
 <p>Vous pouvez cliquer sur "Ajouter un individu" pour augmenter le nombre de personne et sur "Supprimer" pour en enlever.</p>
-{{totalCommande}}
+
 {% endblock %}
 
 {% block commande %}
@@ -22,6 +22,9 @@
  	</div>	
   	{{ form_end(form) }}
 </div>
+
+<br />
+<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 

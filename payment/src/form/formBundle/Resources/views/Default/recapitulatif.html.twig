@@ -2,11 +2,17 @@
 
 {% block commande %}
 
-<p> Vous avez choisi des billets {{ billet }} pour le {{ date|date("d/m/Y") }}.</p><br />
-
+<p> Vous avez choisi {{ nbPlace }} des billets {{ billet }} pour le {{ date|date("d/m/Y") }}.</p><br />
 <ul>
 {% for individu in individus %}
-<li>{{ individu.nom }} {{ individu.prenom }} né le : {{ individu.date|date("d/m/Y") }}
+<li><b> {{ individu.nom }}, {{ individu.prenom }}</b> né le : {{ individu.anniversaire|date("d/m/Y") }} : <b>{{ individu.prix }}€</b>
+<br /><br />
+<p> Prix total : {{ prixTotal }}€</p>
 {% endfor %}
 </ul>
+<br />
+<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
 {% endblock %}

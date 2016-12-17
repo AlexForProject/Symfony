@@ -37,6 +37,13 @@ class individu
     private $prenom;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reduit", type="boolean")
+     */
+    private $reduit;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="anniversaire", type="date")
@@ -195,7 +202,7 @@ class individu
      *
      * @return individu
      */
-    public function setCommande(\OC\PlatformBundle\Entity\commande $commande)
+    public function setCommande(\form\formBundle\Entity\commande $commande)
     {
         $this->commande = $commande;
 
@@ -234,5 +241,29 @@ class individu
     public function getCommandeId()
     {
         return $this->commande_id;
+    }
+
+    /**
+     * Set reduit
+     *
+     * @param boolean $reduit
+     *
+     * @return individu
+     */
+    public function setReduit($reduit)
+    {
+        $this->reduit = $reduit;
+
+        return $this;
+    }
+
+    /**
+     * Get reduit
+     *
+     * @return boolean
+     */
+    public function getReduit()
+    {
+        return $this->reduit;
     }
 }

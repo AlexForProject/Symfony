@@ -3,6 +3,7 @@
 namespace form\formBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * individu
@@ -36,6 +37,13 @@ class individu
     private $prenom;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reduit", type="boolean")
+     */
+    private $reduit;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="anniversaire", type="date")
@@ -43,7 +51,7 @@ class individu
     private $anniversaire;
 
     /**
-    * @ORM\ManyToOne(targetEntity="form\formBundle\Entity\commande",inversedBy="individus", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="form\formBundle\Entity\commande", inversedBy="individus", cascade={"persist"})
     * @ORM\JoinColumn(nullable=false)
     */
     private $commande;
@@ -162,29 +170,6 @@ class individu
         return $this->anniversaire;
     }
 
-    /**
-     * Set jour
-     *
-     * @param \form\formBundle\Entity\jour $jour
-     *
-     * @return individu
-     */
-    public function setJour(\form\formBundle\Entity\jour $jour)
-    {
-        $this->jour = $jour;
-
-        return $this;
-    }
-
-    /**
-     * Get jour
-     *
-     * @return \form\formBundle\Entity\jour
-     */
-    public function getJour()
-    {
-        return $this->jour;
-    }
 
     /**
      * Set prix
@@ -217,7 +202,7 @@ class individu
      *
      * @return individu
      */
-    public function setCommande(\OC\PlatformBundle\Entity\commande $commande)
+    public function setCommande(\form\formBundle\Entity\commande $commande)
     {
         $this->commande = $commande;
 

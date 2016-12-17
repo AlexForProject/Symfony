@@ -15,7 +15,7 @@ class individuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nom')->add('prenom')->add('anniversaire', DateType::class, array(
-    'years' => range(date('Y') -100, date('Y'))))        ;
+    'years' => range(date('Y') -100, date('Y'))))->add('reduit')        ;
     }
     
     /**
