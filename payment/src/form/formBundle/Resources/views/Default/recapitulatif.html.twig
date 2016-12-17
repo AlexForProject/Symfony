@@ -1,8 +1,13 @@
 {% extends "formformBundle::layout.html.twig" %}
 
+{% block prix %}
+
+{% endblock %}
+
 {% block commande %}
 
 <p> Vous avez choisi {{ nbPlace }} des billets {{ billet }} pour le {{ date|date("d/m/Y") }}.</p><br />
+
 <ul>
 {% for individu in individus %}
 <li><b> {{ individu.nom }}, {{ individu.prenom }}</b> né le : {{ individu.anniversaire|date("d/m/Y") }} : <b>{{ individu.prix }}€</b>
@@ -10,9 +15,16 @@
 <p> Prix total : {{ prixTotal }}€</p>
 {% endfor %}
 </ul>
-<br />
-<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
+<br />
+
+<div class="col-xs-3">
+	<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
+</div>
+<div class="col-xs-9">
+	<form class = "form-horizontal">
+		<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/paiement" class = "btn btn-success">Valider la commande</a>
+	</form>
+</div>
 
 {% endblock %}

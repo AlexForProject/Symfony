@@ -61,16 +61,18 @@ class DefaultController extends Controller
           $session->set('billet', $typeBillet);
 
           $repositoryCommande=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
-          
-          $totalCommande=$repositoryCommande->getQuota($date);
+          $jourAnnee = $date->format('D');
+          $jourMois = $date->format('d');
+          $mois = $date->format('m');
 
-          //check la date
-          $ajd = new \DateTime();
+          //if($jourAnnee == "tuesday" || ($jourMois == 25 && $mois == 12) || ($jourMois == 01 && $mois == 05) || ($jourMois == 01 && $mois ==11))
 
-          if($date < $ajd)
+          if(($jourMois == 25 && $mois == 12) || ($jourMois == 01 && $mois = 05) || ($jourMois == 01 && $mois == 11))
           {
             return $this->render('formformBundle:Default:error.html.twig');
           }
+
+          $totalCommande=$repositoryCommande->getQuota($date);
 
           if($totalCommande>=1000)
           {
@@ -171,9 +173,18 @@ class DefaultController extends Controller
         $prixTotal=($prixTotal + $personnes[$i]->getPrix($date, $reduit));  
       }
 
-    
-
       return $this->render('formformBundle:Default:recapitulatif.html.twig', array('date'=>$date, 'nbPlace'=>$nbPlace, 'individus'=>$personnes, 'billet'=>$billet, 'nbPlace'=>$nbPlace, 'prixTotal'=>$prixTotal));
+    }
+
+    public function paiementAction()
+    {
+      $commandeRepository = $this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
+      $session = $this->get('session');
+      $id = $session->get('id');
+      $commande = $commandeRepository->find($id);
+      $prix = $commande->getPrix();
+
+      return $this->render('formformBundle:Default:paiement.html.twig', array('prix'=>$prix));
     }
 
     public function commandeAction()

@@ -17,3 +17,7 @@ formform_recapitulatif:
 formform_error:
   path:    /error
   defaults: { _ controller: formformBundle:Default:error}
+
+formform_paiement:
+  path:    /paiement
+  defaults: { _controller: formformBundle:Default:paiement}
