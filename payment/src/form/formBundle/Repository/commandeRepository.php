@@ -25,8 +25,9 @@ class commandeRepository extends \Doctrine\ORM\EntityRepository
 	public function getCommandes($date)
 	{
 		$commandes=$this->createQueryBuilder('c')
-		->WHERE('c.date < :date')
+		->ANDWHERE('c.date < :date')
 		->setParameter('date', $date)
+		->ANDWHERE('c.codeBarre = 0')
 		->getQuery()
 		->getResult();
 
