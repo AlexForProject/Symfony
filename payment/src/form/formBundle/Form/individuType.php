@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class individuType extends AbstractType
 {
@@ -15,7 +16,7 @@ class individuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nom')->add('prenom')->add('anniversaire', DateType::class, array(
-    'years' => range(date('Y') -100, date('Y'))))->add('reduit')        ;
+    'years' => range(date('Y') -100, date('Y'))))->add('reduit', CheckboxType::class, array('label'=>'Tarif réduit', 'required' => false))        ;
     }
     
     /**

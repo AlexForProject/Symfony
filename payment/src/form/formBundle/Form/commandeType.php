@@ -13,7 +13,7 @@ class commandeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date')->add('billet')->add('nbPlace')->add('prix')->add('jour')
+        $builder->add('date')->add('billet')->add('nbPlace')->add('prix')->add('email')
         ->add('individus','collection',[
             'type' => new individuType,
             'allow_add' => true,

@@ -10,15 +10,29 @@ namespace form\formBundle\Repository;
  */
 class individuRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getQuota($date)
+	public function getDoublon($prenom, $nom, $anniversaire)
 	{
 		$nbIndividu=$this->createQueryBuilder('i')
-		->SELECT('COUNT(i)')
-		->WHERE('i.date=:date')
-		->setParameter('date', $date)
+		->ANDWHERE('i.anniversaire=:anniversaire')
+		->setParameter('anniversaire', $anniversaire)
+		->ANDWHERE('i.prenom=:prenom')
+		->setParameter('prenom', $prenom)
+		->ANDWHERE('i.nom=:nom')
+		->setParameter('nom', $nom)
 		->getQuery()
-		->getSingleScalarResult();
+		->getOneOrNullResult();
 
 		return $nbIndividu;
+	}
+
+	public function getIndividu($commande)
+	{
+		$individu=$this->createQueryBuilder('i')
+		->where('i.commande = :commande')
+		->setParameter('commande', $commande)
+		->getQuery()
+		->getResult();
+
+		return $individu;
 	}
 }

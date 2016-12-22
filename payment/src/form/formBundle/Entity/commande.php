@@ -3,6 +3,7 @@
 namespace form\formBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * commande
@@ -55,6 +56,19 @@ class commande
      * @ORM\JoinColumn(nullable=false)
      */
     private $individus;
+
+    /**
+     * @ORM\Column(name="email", type="string", length=255)
+     * )
+     */
+     protected $email;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="codeBarre", type="integer")
+     */
+    private $codeBarre;
 
     /**
      * Get id
@@ -201,5 +215,53 @@ class commande
     public function getIndividus()
     {
         return $this->individus;
+    }
+
+    /**
+     * Set email
+     *
+     * @param \mail $email
+     *
+     * @return commande
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return \mail
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set codeBarre
+     *
+     * @param integer $codeBarre
+     *
+     * @return commande
+     */
+    public function setCodeBarre($codeBarre)
+    {
+        $this->codeBarre = $codeBarre;
+
+        return $this;
+    }
+
+    /**
+     * Get codeBarre
+     *
+     * @return integer
+     */
+    public function getCodeBarre()
+    {
+        return $this->codeBarre;
     }
 }

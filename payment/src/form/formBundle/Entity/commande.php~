@@ -3,6 +3,7 @@
 namespace form\formBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * commande
@@ -57,6 +58,19 @@ class commande
     private $individus;
 
     /**
+     * @ORM\Column(name="email", type="string", length=255)
+     * )
+     */
+     protected $email;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="codeBarre", type="integer")
+     */
+    private $codeBarre;
+
+    /**
      * Get id
      *
      * @return int
@@ -69,7 +83,7 @@ class commande
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param \Date $date
      *
      * @return commande
      */
@@ -83,7 +97,7 @@ class commande
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return \Date
      */
     public function getDate()
     {
@@ -201,5 +215,29 @@ class commande
     public function getIndividus()
     {
         return $this->individus;
+    }
+
+    /**
+     * Set email
+     *
+     * @param \mail $email
+     *
+     * @return commande
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return \mail
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }

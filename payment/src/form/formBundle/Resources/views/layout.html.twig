@@ -3,7 +3,9 @@
 	<head>
 		<title>Commande</title>
 		<meta charset="utf-8">
-    	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     	<style type="text/css">
     		.form-horizontal .form-group
     		{
@@ -14,31 +16,34 @@
 			{
 				margin-bottom: 30px;
 			}
+			body
+			{
+				background:url('http://larevue.thetops.fr/wp-content/uploads/2015/05/b0c8baecfa3c6325aa1f0a3417cbe362_large.jpeg') no-repeat;
+				background-attachment:fixed;
+				max-height: 1000px;
+			}
+			.well
+			{
+			   background-color: rgba(245, 245, 245, 0.9);
+			}
     	</style>
 	</head>
 	<body>
-	<div class="container">
-		<div id="header" class="jumbotron">
-			<h1>Commande</h1>
-			<p>Bienvenue sur la partie commande</p>
-		</div>
-	</div>	
-
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-xs-12 col-sm-3 col-md-3 centered">
-			{% block prix %}
-			{% endblock %}
-		</div>
-		<div class="col-xs-12 col-sm-7 col-md-7 centered">
-			{% block commande %}
-			{% endblock %}
-		</div>
-		<div class="col-sm-1"></div>
-	</div>
-	<div class="row">
-		{% block test %}
-		{% endblock %}
-	</div>
+		<div class="container">
+			<div id="header" class="jumbotron">
+				<h1>Commande</h1>
+				<p>Bienvenue sur la partie commande</p>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					{% block prix %}
+					{% endblock %}
+				</div>
+				<div class="col-xs-12 col-sm-8 col-md-8">
+					{% block commande %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>	
 	</body>
 </html>

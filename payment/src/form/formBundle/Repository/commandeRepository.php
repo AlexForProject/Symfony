@@ -22,4 +22,15 @@ class commandeRepository extends \Doctrine\ORM\EntityRepository
 		return $nbPlace;
 	}
 
+	public function getCommandes($date)
+	{
+		$commandes=$this->createQueryBuilder('c')
+		->WHERE('c.date < :date')
+		->setParameter('date', $date)
+		->getQuery()
+		->getResult();
+
+		return $commandes;
+	}
+
 }

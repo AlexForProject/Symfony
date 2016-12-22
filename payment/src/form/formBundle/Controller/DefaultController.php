@@ -1,5 +1,4 @@
 <?php
-
 namespace form\formBundle\Controller;
 
 use form\formBundle\Entity\jour;
@@ -33,13 +32,20 @@ class DefaultController extends Controller
       $session = new Session();
     	$commande = new commande();
 
+      global $commandeGlobale;
+      $commandeGlobale = new commande();
+
     	$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $commande, array(
         'method' => 'POST'
         ));
     	$formBuilder
-      	->add('date',           DateType::class, array('years'=>range(date('Y'), date('Y')+5), 'data' => new \DateTime("tomorrow")))
+       ->add('date', DateType::class, array(
+          'widget' => 'single_text',
+          'html5' => false,
+          'attr' => ['class' => 'datepicker', 'glyphicon glyphicon-th', 'data-provide' => 'datepicker'],
+          ))
         ->add('billet',         CheckboxType::class, array(
-          'label' => 'Préférer la demi-journée au lieu de la journée',
+          'label' => 'Demi-journée',
           'required' => false,))
       	->add('commander',      SubmitType::class);
 
@@ -52,40 +58,50 @@ class DefaultController extends Controller
         // si on a soumis le formulaire et est valide, on check la date et le nombre.
         if($form->isSubmitted() && $form->isValid())
         {
+          $ajd = new \Datetime();
+ 
           $date=$form->get('date')->getData();
+          $interval = $date->diff($ajd);
           $billet = $form->get('billet')->getData();
-          $session->set('date', $date);
+
+          $interval = $ajd->diff($date)->format('%R%a');
+          $session->set('daysInterval', $interval);
           
           $servicePrix = $this->container->get('form_form.prix');
           $typeBillet = $servicePrix->getBillet($billet);
           $session->set('billet', $typeBillet);
 
           $repositoryCommande=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
-          $jourAnnee = $date->format('D');
+          $jourAnnee = $date->format('w');
           $jourMois = $date->format('d');
           $mois = $date->format('m');
+          
 
-          //if($jourAnnee == "tuesday" || ($jourMois == 25 && $mois == 12) || ($jourMois == 01 && $mois == 05) || ($jourMois == 01 && $mois ==11))
-
-          if(($jourMois == 25 && $mois == 12) || ($jourMois == 01 && $mois = 05) || ($jourMois == 01 && $mois == 11))
+          if(($jourMois == 25 && $mois == 12) || ($jourMois == 01 && $mois = 05) || ($jourMois == 01 && $mois == 11) || $jourAnnee == 2 || $interval < 0)
           {
-            return $this->render('formformBundle:Default:error.html.twig');
+            return $this->render('formformBundle:Default:errorDate.html.twig');
           }
 
           $totalCommande=$repositoryCommande->getQuota($date);
 
           if($totalCommande>=1000)
           {
-            return $this->render('formformBundle:Default:error.html.twig');
+            return $this->render('formformBundle:Default:errorNombre.html.twig');
           }
 
           $em=$this->getDoctrine()->getManager();
           $commande->setNbPlace(0);
           $commande->setPrix(0);
+          $commande->setEmail("");
+          $commande->setCodeBarre(0);
           $em->persist($commande);
           $em->flush($commande);
           $idCommande = $commande->getId();
           $session->set('id', $idCommande);
+
+          $commande->setNbPlace(0);
+          $commande->setPrix(0);
+     
           return $this->redirectToRoute('formform_personnes');
         }
 
@@ -98,21 +114,22 @@ class DefaultController extends Controller
     {
       $session=$this->get('session');
 
-      $date=$session->get('date');
-      $typeBillet=$session->get('billet');
       $id=$session->get('id');
-      $ajd=$session->get('ajd');
       $servicePrix = $this->container->get('form_form.prix');
-
+      $serviceBillet = $this->container->get('form_form.billet');
 
       $commandeRepository=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
       $commande = $commandeRepository->find($id);
+      $date = $commande->getDate();
+      $typeBillet=$commande->getBillet();
+      $billetString = $serviceBillet->getBillet($typeBillet);
 
       $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $commande, array(
         'method' => 'POST'
         ));
 
       $formBuilder
+      ->add('email',         TextType::class)
       ->add('individus',    CollectionType::class, array(
         'entry_type'    => individuType::class,
         'allow_add'     => true,
@@ -128,30 +145,48 @@ class DefaultController extends Controller
         if($form->isSubmitted() && $form->isValid())
         {
           $personnes = $form->get('individus')->getData();
+          $mailClient=$form->get('email')->getData();
+          $commande->setEmail($mailClient);
+          $session->set('emailClient', $mailClient);
+
           $session->set('individus', $personnes);
           $nbPlace = count($personnes);
           $session->set('nbPlace', $nbPlace);
 
           $em=$this->getDoctrine()->getManager();
+          $prixTotal=0;
+          $repositoryIndividu=$this->getDoctrine()->getManager()->getRepository('formformBundle:individu');
 
-          for($i =0 ; $i < $nbPlace ; $i++)
+          foreach ($personnes as $individu) {
+            {
+              $individu->setCommande($commande);
+              $prix = $servicePrix->getPrix($individu->getAnniversaire(), $individu->getReduit(), $commande->getBillet());
+              $individu->setPrix($prix);
+              $commande->addIndividus($individu);
+              $em->persist($individu);
+              $prixTotal += $prix;             
+            }
+          }
+          /*for($i = 0 ; $i < $nbPlace ; $i++)
           {
             $personnes[$i]->setCommande($commande);
-            $reduit =  $personnes[$i]->getReduit();
-            $prix = $servicePrix->getPrix($personnes[$i]->getAnniversaire(), $reduit);
+            $prix = $servicePrix->getPrix($personnes[$i]->getAnniversaire(), $personnes[$i]->getReduit(), $commande->getBillet());
             $personnes[$i]->setPrix($prix);
             $commande->addIndividus($personnes[$i]);
             $em->persist($personnes[$i]);
-          }
-          $em->flush($personnes[$i]);
+            $prixTotal += $prix;
+          }*/
+
+          $commande->setPrix($prixTotal);
           $commande->setNbPlace($nbPlace+1);
           $em->persist($commande);
-          $em->flush($commande);
+          $em->flush();
+
           return $this->redirectToRoute('formform_recapitulatif');
         }
       }
 
-      return $this->render('formformBundle:Default:personnes.html.twig', array('form' => $form->createView(),'date'=>$date, 'billet'=>$typeBillet));
+      return $this->render('formformBundle:Default:personnes.html.twig', array('form' => $form->createView(),'date'=>$date, 'billet'=>$billetString));
 
     }
 
@@ -159,37 +194,103 @@ class DefaultController extends Controller
     {
       $session=$this->get('session');
 
-      $date=$session->get('date');
+      $commande=$session->get('commande');
+      $personnes=$session->get('personnes');
       $billet=$session->get('billet');
       $id=$session->get('id');
+      $nbPlace = $session->get('nbPlace');
+
       $commande = $this->getDoctrine()->getManager()->getRepository('formformBundle:commande')->find($id);
       $personnes = $commande->getIndividus();
-      $nbPlace = count($personnes);
-      $prixTotal = 0;
+      
+      $date=$commande->getdate();
+      $billet=$commande->getBillet();
+      $prixTotal=$commande->getPrix();
 
-      for($i=0 ; $i<$nbPlace ; $i++)
-      {
-        $reduit = $personnes[$i]->getReduit();
-        $prixTotal=($prixTotal + $personnes[$i]->getPrix($date, $reduit));  
-      }
+      $nbPlace=$commande->getNbPlace();
 
-      return $this->render('formformBundle:Default:recapitulatif.html.twig', array('date'=>$date, 'nbPlace'=>$nbPlace, 'individus'=>$personnes, 'billet'=>$billet, 'nbPlace'=>$nbPlace, 'prixTotal'=>$prixTotal));
+      if($billet == 1)$billet= "demi-journée";
+      else $billet = "journée";
+      $mailClient = $commande->getEmail();
+      return $this->render('formformBundle:Default:recapitulatif.html.twig', array( 'mailClient'=>$mailClient ,'date'=>$date, 'nbPlace'=>$nbPlace, 'personnes'=>$personnes, 'billet'=>$billet, 'prixTotal'=>$prixTotal));
     }
 
-    public function paiementAction()
+    public function validationAction()
     {
-      $commandeRepository = $this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
       $session = $this->get('session');
-      $id = $session->get('id');
-      $commande = $commandeRepository->find($id);
-      $prix = $commande->getPrix();
+      $id=$session->get('id');
+      $mailClient = $session->get('mailClient');
+      $commande = $this->getDoctrine()->getManager()->getRepository('formformBundle:commande')->find($id);      
+      $individus = $commande->getIndividus();
+      $forBillet = $individus[0];
 
-      return $this->render('formformBundle:Default:paiement.html.twig', array('prix'=>$prix));
+      $prix = $commande->getPrix();
+      $prixCent = ($prix*100);
+
+      $date = $commande->getDate();
+      $annee = $date->format('Y');
+      $mois = $date->format('m');
+      $jour = $date->format('d');
+
+      $barreCode = intval($jour+$mois+$annee+$id);
+
+      
+      \Stripe\Stripe::setApiKey("sk_test_k8kLQzmIapAeThLZQFpCW5IO");
+      $token = $_POST['stripeToken'];
+
+
+      try {
+        $charge = \Stripe\Charge::create(array(
+          "amount"      => $prixCent, // Amount in cents
+          "currency"    => "eur",
+          "source"      => $token,
+          "description" => "Achat billet"
+          ));
+
+      $message = \Swift_Message::newInstance()
+          ->setSubject('Votre commande')
+          ->setFrom('louvre-project@outlook.fr')
+          ->setTo($commande->getEmail())
+          ->setBody(
+            $this->renderView('formformBundle:Emails:registration.html.twig', array('barreCode'=>$barreCode,'personnes' => $individus, 'individu' => $forBillet, 'date' => $date, 'commande'=>$commande)),'text/html');
+        $this->get('mailer')->send($message);
+
+        $commande->setCodeBarre($barreCode);
+
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($commande);
+        $em->flush();
+        return $this->render("formformBundle:Default:validation.html.twig", array('prix'=>$prix));
+
+      } catch(\Stripe\Error\Card $e) {
+        // The card has been declined
+      }
     }
 
-    public function commandeAction()
+    public function purgeAction()
     {
-      return $this->render('formformBundle:Default:commande.html.twig');
+      $em=$this->getDoctrine()->getManager();
+
+      $dateReference = date('Y-m-d',strtotime("-1 days"));
+
+      $repositoryCommande = $this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
+      $repositoryIndividu = $this->getDoctrine()->getManager()->getRepository('formformBundle:individu');
+      $listeCommande = $repositoryCommande->getCommandes($dateReference);
+
+      foreach ($listeCommande as $commande)
+      {
+        $individus = $repositoryIndividu->getIndividu($commande);
+        foreach ($individus as $individu) {
+        $em->remove($individu);
+        }
+      }
+      $em->flush();
+      foreach ($listeCommande as $commande)
+      {
+        $em->remove($commande);
+      }
+      $em->flush();
+    return $this->render("formformBundle:Default:supprime.html.twig");
     }
 
 }

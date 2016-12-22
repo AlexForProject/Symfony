@@ -6,10 +6,6 @@ formform_personnes:
   path:    /personnes
   defaults: { _controller: formformBundle:Default:personnes}
 
-formform_commande:
-  path:    /commande
-  defaults: { _controller: formformBundle:Default:commande}
-
 formform_recapitulatif:
     path:    /recapitulatif
     defaults: { _controller: formformBundle:Default:recapitulatif}
@@ -18,6 +14,10 @@ formform_error:
   path:    /error
   defaults: { _ controller: formformBundle:Default:error}
 
-formform_paiement:
-  path:    /paiement
-  defaults: { _controller: formformBundle:Default:paiement}
+formform_validation:
+  path:    /validation
+  defaults: { _controller: formformBundle:Default:validation}
+
+formform_purge:
+  path:    /purge
+  defaults: { _controller: formformBundle:Default:purge}

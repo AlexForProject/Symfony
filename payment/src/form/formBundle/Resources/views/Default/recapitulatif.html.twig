@@ -1,29 +1,40 @@
 {% extends "formformBundle::layout.html.twig" %}
 
-{% block prix %}
 
+{% block prix %}
 {% endblock %}
 
 {% block commande %}
+	<div class="well">
+		<p> Vous avez choisi {{ nbPlace-1 }} billet(s) de type {{ billet }} pour le <u>{{ date|date("d/m/Y") }}</u>.</p><br />
 
-<p> Vous avez choisi {{ nbPlace }} des billets {{ billet }} pour le <u>{{ date|date("d/m/Y") }}</u>.</p><br />
-
-<ul>
-{% for individu in individus %}
-<li><b> {{ individu.nom }}, {{ individu.prenom }}</b> né le : {{ individu.anniversaire|date("d/m/Y") }} : <b>{{ individu.prix }}€</b>
-<br /><br />
-{% endfor %}
-</ul>
-<br />
-<p><b> Prix total : {{ prixTotal }}€</b></p>
-
-<div class="col-xs-3">
-	<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
-</div>
-<div class="col-xs-9">
-	<form class = "form-horizontal">
-		<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/paiement" class = "btn btn-success">Valider la commande</a>
+		<ul>
+		{% for individu in personnes %}
+		<li><b> {{ individu.nom }}, {{ individu.prenom }}</b> né le : {{ individu.anniversaire|date("d/m/Y") }} : <b>{{ individu.prix }}€</b>
+		<br /><br />
+		{% endfor %}
+		</ul>
+		<br />
+		<p><b> Prix total : {{ prixTotal }}€</b></p>
+	</div>
+	<div class="col-xs-3">
+		<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
+	</div>
+	<div class="col-xs-9">
+	<form action="http://localhost/projet/Symfony/payment/web/app_dev.php/validation" method="POST">
+	<script
+	  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+	  data-key="pk_test_38mJDPuzcmUiNKeQwjrSnXx5"
+	  data-amount={{prixTotal*100}}
+	  data-name="Paiement de la commande"
+	  data-description="{{prixTotal}}€"
+	  data-image="https://s3.amazonaws.com/stripe-uploads/acct_19OvPSIvZQQWXweDmerchant-icon-1482222740075-dribbble-tree_1x.jpg"
+	  data-email="{{mailClient}}"
+	  data-locale="auto"
+	  data-label="Payer la commande"
+	  data-zip-code="true"
+	  data-currency="eur">
+	</script>
 	</form>
-</div>
 
 {% endblock %}

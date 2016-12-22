@@ -1,84 +1,95 @@
 {% extends "formformBundle::layout.html.twig" %}
 
+
 {% block prix %}
-
-<p><b>Pour le {{date|date("d/m/Y")}}, vous avez commandé des billets de type {{ billet }}.</b></p><br />
-<p>Vous pouvez cliquer sur "Ajouter un individu" pour augmenter le nombre de personne et sur "Supprimer" pour en enlever.</p>
-
+  <div class = "well" id="gauche">
+    <p><b>Pour le {{date|date("d/m/Y")}}, vous avez commandé des billets de type {{ billet }}.</b></p><br />
+    <p>Vous pouvez cliquer sur "Ajouter un individu" pour augmenter le nombre de personne et sur "Supprimer" pour en enlever.</p>
+  </div>
 {% endblock %}
 
 {% block commande %}
+  <div class="well">
+  	<h2>Ajout des individus </h2>
+    	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+  	<div class="form-group">
 
-{# Le formulaire reste globalement le même#}
+   	{{ form_row(form.individus) }}
+    	<a href="#" id="add_individu" class="btn btn-default">Ajouter un individu</a>
+    	{{ form_row(form.commander) }}
 
-<div class="well">
-	<h2>Ajout des individus </h2>
-  	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-	<div class="form-group">
- 	{{ form_row(form.individus) }}
-  	<a href="#" id="add_individu" class="btn btn-default">Ajouter un individu</a>
-  	{{ form_row(form.commander) }}
-  	{{ form_widget(form.commander, {'attr': {'class': 'btn btn-info'}}) }}
- 	</div>	
-  	{{ form_end(form) }}
-</div>
+    	{{ form_widget(form.commander, {'attr': {'class': 'btn btn-info'}}) }}
+   	</div>	
+    	{{ form_end(form) }}
+  </div>
+  <br />
 
-<br />
-<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
+  <a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
+  <script type="text/javascript">
+    $(document).ready(function() {
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    var $container = $('div#form_individus');
+    $(".control-label").wrapInner('<h2></h2>');
+    
 
-    var index = $container.find(':input').length;
+      var $container = $('div#form_individus');
 
-    $('#add_individu').click(function(e) {
-      addIndividu($container);
-
-      e.preventDefault();
-      return false;
-    });
-
-    if (index == 0) {
-      addIndividu($container);
-    } else {
-      $container.children('div').each(function() {
-        addDeleteLink($(this));
-      });
-    }
-    function addIndividu($container) {
-      var template = $container.attr('data-prototype')
-        .replace(/__name__label__/g, 'Individu numéro n°' + (index+1))
-        .replace(/__name__/g,        index)
-      ;
-
-      var $prototype = $(template);
-
-      addDeleteLink($prototype);
-
-      $container.append($prototype);
-      index++;
-    }
-
-    function addDeleteLink($prototype) {
-      var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
-
-      $prototype.append($deleteLink);
-
-      $deleteLink.click(function(e) {
-        $prototype.remove();
+      var index = $container.find(':input').length;
+      $('#add_individu').click(function(e) {
+        addIndividu($container);
+        $("#form_commander").prop('disabled', false);
         e.preventDefault();
         return false;
       });
-    }
 
-    function addEspace($id){
-    	$id.append('<br />');
-    }
-  });
-</script>
+      $('#add_individu').click(function(){
+          $("#form_commander").prop('disabled', false);
+      })
+
+      if (index == 0) {
+        addIndividu($container);
+      } else {
+        $container.children('div').each(function() {
+          addDeleteLink($(this));
+        });
+      }
+      function addIndividu($container) {
+
+        var template = $container.attr('data-prototype')
+          .replace(/__name__label__/g, 'Nouvel individu :');
+
+        var $prototype = $(template);
+
+        addDeleteLink($prototype);
+
+        $container.append($prototype);
+        index++;
+      }
+
+      function addDeleteLink($prototype) {
+        var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+        $prototype.append($deleteLink);
+
+        $deleteLink.click(function(e) {
+          $prototype.remove();
+          $nombre = $container.find(':input').length;
+          if($nombre === 0)
+          {
+            $("#form_commander").prop('disabled', true);
+          }
+          e.preventDefault();
+          return false;
+        });
+      }
+
+      function addEspace($id){
+      	$id.append('<br />');
+      }
+
+    });
+  </script>
 
 {% endblock %}

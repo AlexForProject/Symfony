@@ -1,103 +1,45 @@
 {% extends "formformBundle::layout.html.twig" %}
 
 {% block commande %}
-<div class="well">
-<form action="/your-charge-code" method="POST" id="payment-form" class="form-horizontal">
-  <span class="payment-errors"></span>
 
-  <div class="form-row">
-    <label>
-      <span>Card Number</span>
-      <input type="text" size="20" data-stripe="number">
-    </label>
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>Expiration (MM/YY)</span>
-      	<select name="month" size="1" data-stripe="exp_month">
-      	<option>01
-      	<option>02
-      	<option>03
-      	<option>04
-      	<option>05
-      	<option>06
-      	<option>07
-      	<option>08
-      	<option>09
-      	<option>10
-      	<option>11
-      	<option>12
-     </select>
-    </label>
-    <span> / </span>
-    	<select name="year" size="1" data-stripe="exp_year">
-	      	<option>2016
-	      	<option>2017
-	      	<option>2018
-	      	<option>2019
-	      	<option>2020
-      </select>
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>CVC</span>
-      <input type="text" size="4" data-stripe="cvc">
-    </label>
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>Billing Postal Code</span>
-      <input type="text" size="6" data-stripe="address_zip">
-    </label>
-  </div>
-
-  <input type="submit" class="submit" value="Submit Payment">
+<form action="http://localhost/projet/Symfony/payment/web/app_dev.php/validation" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_38mJDPuzcmUiNKeQwjrSnXx5"
+    data-amount="{{ prix }}"
+    data-name="Musée du Louve"
+    data-description="2 widgets"
+    data-image="https://s3.amazonaws.com/stripe-uploads/acct_19OvPSIvZQQWXweDmerchant-icon-1482222740075-dribbble-tree_1x.jpg"
+    data-locale="auto"
+    data-label="Payer"
+    data-zip-code="true"
+    data-currency="eur">
+  </script>
 </form>
-</div>
 
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
-  Stripe.setPublishableKey('pk_test_38mJDPuzcmUiNKeQwjrSnXx5');
-</script>
-<script type="text/javascript">
-$(function() {
-  var $form = $('#payment-form');
-  $form.submit(function(event) {
-    // Disable the submit button to prevent repeated clicks:
-    $form.find('.submit').prop('disabled', true);
-
-    // Request a token from Stripe:
-    Stripe.card.createToken($form, stripeResponseHandler);
-
-    // Prevent the form from being submitted:
-    return false;
+   Stripe.setPublishabledKey('sk_test_k8kLQzmIapAeThLZQFpCW5IO');
+   $(function() {
+    var $form = $('#payment-form');
+    $form.submit(function(event) {
+      $form.find('.submit').prop('disabled', true);
+      Stripe.card.createToken($form, stripeResponseHandler);
+      return false;
+    });
   });
-});
 
-function stripeResponseHandler(status, response) {
-  // Grab the form:
-  var $form = $('#payment-form');
+  function stripeResponseHandler(status, response) {
+    var $form = $('#payment-form');
 
-  if (response.error) { // Problem!
+    if (response.error) {
+      $form.find('.payment-errors').text(response.error.message);
+      $form.find('.submit').prop('disabled', false); // Re-enable submission
 
-    // Show the errors on the form:
-    $form.find('.payment-errors').text(response.error.message);
-    $form.find('.submit').prop('disabled', false); // Re-enable submission
-
-  } else { // Token was created!
-
-    // Get the token ID:
-    var token = response.id;
-
-    // Insert the token ID into the form so it gets submitted to the server:
-    $form.append($('<input type="hidden" name="stripeToken">').val(token));
-
-    // Submit the form:
-    $form.get(0).submit();
-  }
-};
-</script
+    } else {
+      var token = response.id;
+      $form.append($('<input type="hidden" name="stripeToken">').val(token));
+      $form.get(0).submit();
+    }
+  };
+  </script>
 {% endblock %}

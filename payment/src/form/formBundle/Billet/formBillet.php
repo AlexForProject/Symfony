@@ -1,6 +1,6 @@
 <?php
 
-namespace form\formBundle\Billet\formBillet;
+namespace form\formBundle\Billet;
 
 class formBillet
 {

@@ -1,54 +1,79 @@
 {% extends "formformBundle::layout.html.twig" %}
 
-{% block prix %}
-<p>Voici les tarifs disponibles :</p>
+	{% block prix %}
+		<div class="well table-hover">
+			<p>Voici les tarifs disponibles :</p>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Catégorie</th>
+						<th>Journée</th>
+						<th>Demi-journée<th>
+					<tr>
+				<tbody>
+					<tr>
+						<th>Inférieur à 4 ans</th>
+						<th>Gratuit</th>
+						<th>Gratuit</th>
+					</tr>
+					<tr>
+						<th>Entre 4 et 12 ans</th>
+						<th>8€</th>
+						<th>6€</th>
+					</tr>
+					<tr>
+						<th>Plus de 12 ans</th>
+						<th>16€</th>
+						<th>12</th>
+					</tr>
+					<tr>
+						<th>60 ans et plus</th>
+						<th>12€</th>
+						<th>9€</th>
+					</tr>
+					<tr>
+						<th>Etudiant, militaire, professeur...</th>
+						<th>10€</th>
+						<th>7.5€</th>
+					</tr>
+			</table>
+		</div>
+	<br />
 
-<div class="table-hover">
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Age</th>
-				<th>Prix</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th>Enfant inférieur à 4 ans</th>
-				<th>Gratuit</th>
-			</tr>
-			<tr>
-				<th>Enfant entre 4 et 12 ans</th>
-				<th>8€</th>
-			</tr>
-			<tr>
-				<th>Adulte de plus de 12 ans</th>
-				<th>16€</th>
-			</tr>
-			<tr>
-				<th>Sénior, 60 ans et plus</th>
-				<th>12€</th>
-			</tr>
-	</table>
-</div>
-<br />
-<p>Le musée est fermé aux dates suivantes :
-<ul>
-<li>Les mardis
-<li>Le 1er Mai
-<li>Le 1er Novembre
-<li>Le 25 Décembre7
-</ul>
-{% endblock %}
+	<div class="well">
+		<p>Le musée est fermé aux dates suivantes :
+		<ul>
+			<li>Les mardis
+			<li>Le 1er Mai
+			<li>Le 1er Novembre
+			<li>Le 25 Décembre
+		</ul>
+	</div>
+	{% endblock %}
 
-{% block commande %}
+	{% block commande %}
 
-<p>Pour pouvoir vérifier la disponibilité des places, veuillez indiquer la date à laquelle vous souhaiter établir votre visite :</p>
-<div class="well">
-{{ form(form) }}
-</div>
-<br />
-<p>A partir de 14H, il n'est plus possible de commander en journée complète pour le jour-même</p>
+	<div class="well">
+		<p>Pour pouvoir vérifier la disponibilité des places, veuillez indiquer la date à laquelle vous souhaiter établir votre visite :</p>
+		{{ form(form) }}
+		<p>A partir de 14H, il n'est plus possible de commander en journée complète pour le jour-même</p>
+	</div>
+	<br />
+	<a href="http://localhost/projet/Symfony/payment/web/app_dev.php/purge" class="btn btn-info">Purger</a>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fr.min.js"></script>
+
+<script type="text/javascript">
+
+$.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+	$('.datepicker').datepicker({
+		format: 'yyyy-mm-dd'
+		language: 'fr'
+	});
+</script>
 
 <script type="text/javascript">
 
@@ -63,23 +88,24 @@
 
   	var form = $('.form-control');
 
-  	form.click(function(e){
+
+  	form.change(function(){
 
   		if((ajd.getMonth()+1) == month.val() && ajd.getDate() == day.val() && ajd.getFullYear() == year.val())
   		{
 	  		if((ajd.getHours()) >= 14)
 	  		{
-	  			console.log("ok deuxième if");
 	  			billet.prop('checked', 'true');	
-	  			document.getElementById("form_billet").style.visibility = "hidden";
+	  			billet.prop('disabled', true);
 	  		}
   		}
-  		if((ajd.getMonth()+1) != month.val() || ajd.getDate() != day.val() || ajd.getFullYear() != year.val())
+  		if(ajd.getDate() != day.val())
   		{
-  			document.getElementById("form_billet").style.visibility = "visible";
+  			billet.prop('disabled', false);
   		}
   	})
   });
 
 </script>
+
 {% endblock %}
