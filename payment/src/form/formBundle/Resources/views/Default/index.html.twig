@@ -64,21 +64,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fr.min.js"></script>
-
-<script type="text/javascript">
-
-$.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
-	$('.datepicker').datepicker({
-		format: 'yyyy-mm-dd'
-		language: 'fr'
-	});
-</script>
 
 <script type="text/javascript">
 
   $(document).ready(function() {
-
+  	var form = $('.form-control');
+	form.datepicker({
+		format: 'yyyy-mm-dd',
+	});
   	var ajd = new Date();
 	var billet = $('#form_billet');
 
@@ -86,24 +79,31 @@ $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
   	var day = $('#form_date_day');
   	var year = $('#form_date_year');
 
-  	var form = $('.form-control');
 
+	var ajdMonth = ajd.getMonth()+1;
+	var ajdDay = ajd.getDate();
+	var ajdYear = ajd.getFullYear();
+	var heure = ajd.getHours();
 
-  	form.change(function(){
-
-  		if((ajd.getMonth()+1) == month.val() && ajd.getDate() == day.val() && ajd.getFullYear() == year.val())
-  		{
-	  		if((ajd.getHours()) >= 14)
-	  		{
-	  			billet.prop('checked', 'true');	
-	  			billet.prop('disabled', true);
-	  		}
+  	form.change(function()
+  	{
+  		if(heure >= 14)
+  		{		
+			var dpJour = form.datepicker( "getDate" ).getDate();
+			var dpMonth = form.datepicker( "getDate" ).getMonth()+1;
+			var dpYear = form.datepicker( "getDate" ).getFullYear();
+			var billet = $("#form_billet");
+			if((ajdDay === dpJour) && (ajdMonth === dpMonth) && (ajdYear === dpYear))
+			{
+				billet.prop('checked', true);
+				billet.prop('disabled', true);
+			}
+			if(ajdDay != dpJour)
+			{
+				billet.prop('disabled', false);
+			}
   		}
-  		if(ajd.getDate() != day.val())
-  		{
-  			billet.prop('disabled', false);
-  		}
-  	})
+  	});
   });
 
 </script>
