@@ -9,19 +9,19 @@
 {% endblock %}
 
 {% block commande %}
-  <div class="well">
-  	<h2>Ajout des individus </h2>
-    	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-  	<div class="form-group">
 
-   	{{ form_row(form.individus) }}
-    	<a href="#" id="add_individu" class="btn btn-default">Ajouter un individu</a>
-    	{{ form_row(form.commander) }}
 
-    	{{ form_widget(form.commander, {'attr': {'class': 'btn btn-info'}}) }}
-   	</div>	
-    	{{ form_end(form) }}
-  </div>
+  +<div class="well">
+   <h2>Ajout des individus </h2>
+     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+   <div class="form-group">
+   {{ form_row(form.individus) }}
+     <a href="#" id="add_individu" class="btn btn-default">Ajouter un individu</a>
+     {{ form_row(form.commander) }}
+     {{ form_widget(form.commander, {'attr': {'class': 'btn btn-info'}}) }}
+   </div>  
+     {{ form_end(form) }}
+ </div>
   <br />
 
   <a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
@@ -56,9 +56,10 @@
         });
       }
       function addIndividu($container) {
-
-        var template = $container.attr('data-prototype')
-          .replace(/__name__label__/g, 'Nouvel individu :');
+     var template = $container.attr('data-prototype')
+         .replace(/__name__label__/g, 'Individu numéro n°' + (index+1))
+         .replace(/__name__/g,        index)
+       ;
 
         var $prototype = $(template);
 

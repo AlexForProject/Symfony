@@ -71,6 +71,7 @@
   	var form = $('.form-control');
 	form.datepicker({
 		format: 'yyyy-mm-dd',
+		defaultDate: new Date("tomorrow")
 	});
   	var ajd = new Date();
 	var billet = $('#form_billet');
@@ -87,6 +88,7 @@
 
   	form.change(function()
   	{
+  		console.log(heure);
   		if(heure >= 14)
   		{		
 			var dpJour = form.datepicker( "getDate" ).getDate();

@@ -147,18 +147,20 @@ class DefaultController extends Controller
           $personnes = $form->get('individus')->getData();
           $mailClient=$form->get('email')->getData();
           $commande->setEmail($mailClient);
-          $session->set('emailClient', $mailClient);
-
-          $session->set('individus', $personnes);
           $nbPlace = count($personnes);
+
+          $session->set('emailClient', $mailClient);
+          $session->set('individus', $personnes);
           $session->set('nbPlace', $nbPlace);
+          $session->set('personnes', $personnes);
 
           $em=$this->getDoctrine()->getManager();
           $prixTotal=0;
           $repositoryIndividu=$this->getDoctrine()->getManager()->getRepository('formformBundle:individu');
 
-          foreach ($personnes as $individu) {
+          foreach ($personnes as $individu)
             {
+              $session->set('individu', $individu);
               $individu->setCommande($commande);
               $prix = $servicePrix->getPrix($individu->getAnniversaire(), $individu->getReduit(), $commande->getBillet());
               $individu->setPrix($prix);
@@ -166,7 +168,7 @@ class DefaultController extends Controller
               $em->persist($individu);
               $prixTotal += $prix;             
             }
-          }
+
           /*for($i = 0 ; $i < $nbPlace ; $i++)
           {
             $personnes[$i]->setCommande($commande);
@@ -176,7 +178,6 @@ class DefaultController extends Controller
             $em->persist($personnes[$i]);
             $prixTotal += $prix;
           }*/
-
           $commande->setPrix($prixTotal);
           $commande->setNbPlace($nbPlace+1);
           $em->persist($commande);
@@ -224,6 +225,10 @@ class DefaultController extends Controller
       $individus = $commande->getIndividus();
       $forBillet = $individus[0];
 
+      $serviceBillet = $this->container->get('form_form.billet');
+      $typeBillet=$commande->getBillet();
+      $billetString = $serviceBillet->getBillet($typeBillet);
+
       $prix = $commande->getPrix();
       $prixCent = ($prix*100);
 
@@ -252,7 +257,7 @@ class DefaultController extends Controller
           ->setFrom('louvre-project@outlook.fr')
           ->setTo($commande->getEmail())
           ->setBody(
-            $this->renderView('formformBundle:Emails:registration.html.twig', array('barreCode'=>$barreCode,'personnes' => $individus, 'individu' => $forBillet, 'date' => $date, 'commande'=>$commande)),'text/html');
+            $this->renderView('formformBundle:Emails:registration.html.twig', array('billet' => $billetString,'barreCode'=>$barreCode,'personnes' => $individus, 'individu' => $forBillet, 'date' => $date, 'commande'=>$commande)),'text/html');
         $this->get('mailer')->send($message);
 
         $commande->setCodeBarre($barreCode);
