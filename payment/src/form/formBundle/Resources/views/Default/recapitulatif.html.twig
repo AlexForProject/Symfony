@@ -18,23 +18,25 @@
 		<p><b> Prix total : {{ prixTotal }}€</b></p>
 	</div>
 	<div class="col-xs-3">
-		<a href = "http://localhost/projet/Symfony/payment/web/app_dev.php/" class = "btn btn-info">Retour</a>
+		<a href = "http://s647394915.onlinehome.fr/web/app.php" class = "btn btn-info">Retour</a>
 	</div>
+	
 	<div class="col-xs-9">
-	<form action="http://localhost/projet/Symfony/payment/web/app_dev.php/validation" method="POST">
-	<script
-	  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-	  data-key="pk_test_38mJDPuzcmUiNKeQwjrSnXx5"
-	  data-amount={{prixTotal*100}}
-	  data-name="Paiement de la commande"
-	  data-description="{{prixTotal}}€"
-	  data-image="https://s3.amazonaws.com/stripe-uploads/acct_19OvPSIvZQQWXweDmerchant-icon-1482222740075-dribbble-tree_1x.jpg"
-	  data-email="{{mailClient}}"
-	  data-locale="auto"
-	  data-label="Payer la commande"
-	  data-zip-code="true"
-	  data-currency="eur">
-	</script>
-	</form>
+		<form action="http://s647394915.onlinehome.fr/web/app.php/validation" method="POST">
+			<script
+			  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+			  data-amount={{prixTotal*100}}
+			  data-key="pk_test_250bRFcDrhI5cxh3d3H9iwtL"
+			  data-name="Paiement de la commande"
+			  data-description="{{prixTotal}}€"
+			  data-image="https://s3.amazonaws.com/stripe-uploads/acct_19OvPSIvZQQWXweDmerchant-icon-1482222740075-dribbble-tree_1x.jpg"
+			  data-email="{{mailClient}}"
+			  data-locale="auto"
+			  data-label="Payer la commande"
+			  data-zip-code="true"
+			  data-currency="eur">
+			</script>
+		</form>
+	</div>
 
 {% endblock %}

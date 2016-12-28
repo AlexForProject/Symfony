@@ -53,9 +53,9 @@ class DefaultController extends Controller
 
       if($request->isMethod('POST'))
       {
-        //on choppe la requête
+
         $form->handleRequest($request);
-        // si on a soumis le formulaire et est valide, on check la date et le nombre.
+
         if($form->isSubmitted() && $form->isValid())
         {
           $ajd = new \Datetime();
@@ -69,7 +69,7 @@ class DefaultController extends Controller
           
           $servicePrix = $this->container->get('form_form.prix');
           $typeBillet = $servicePrix->getBillet($billet);
-          $session->set('billet', $typeBillet);
+          //$session->set('billet', $typeBillet);
 
           $repositoryCommande=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
           $jourAnnee = $date->format('w');
@@ -149,11 +149,6 @@ class DefaultController extends Controller
           $commande->setEmail($mailClient);
           $nbPlace = count($personnes);
 
-          $session->set('emailClient', $mailClient);
-          $session->set('individus', $personnes);
-          $session->set('nbPlace', $nbPlace);
-          $session->set('personnes', $personnes);
-
           $em=$this->getDoctrine()->getManager();
           $prixTotal=0;
           $repositoryIndividu=$this->getDoctrine()->getManager()->getRepository('formformBundle:individu');
@@ -169,15 +164,6 @@ class DefaultController extends Controller
               $prixTotal += $prix;             
             }
 
-          /*for($i = 0 ; $i < $nbPlace ; $i++)
-          {
-            $personnes[$i]->setCommande($commande);
-            $prix = $servicePrix->getPrix($personnes[$i]->getAnniversaire(), $personnes[$i]->getReduit(), $commande->getBillet());
-            $personnes[$i]->setPrix($prix);
-            $commande->addIndividus($personnes[$i]);
-            $em->persist($personnes[$i]);
-            $prixTotal += $prix;
-          }*/
           $commande->setPrix($prixTotal);
           $commande->setNbPlace($nbPlace+1);
           $em->persist($commande);
@@ -195,11 +181,7 @@ class DefaultController extends Controller
     {
       $session=$this->get('session');
 
-      $commande=$session->get('commande');
-      $personnes=$session->get('personnes');
-      $billet=$session->get('billet');
       $id=$session->get('id');
-      $nbPlace = $session->get('nbPlace');
 
       $commande = $this->getDoctrine()->getManager()->getRepository('formformBundle:commande')->find($id);
       $personnes = $commande->getIndividus();
@@ -220,13 +202,14 @@ class DefaultController extends Controller
     {
       $session = $this->get('session');
       $id=$session->get('id');
-      $mailClient = $session->get('mailClient');
+
       $commande = $this->getDoctrine()->getManager()->getRepository('formformBundle:commande')->find($id);      
       $individus = $commande->getIndividus();
       $forBillet = $individus[0];
-
-      $serviceBillet = $this->container->get('form_form.billet');
+      $mailClient=$commande->getEmail();
       $typeBillet=$commande->getBillet();
+      
+      $serviceBillet = $this->container->get('form_form.billet');
       $billetString = $serviceBillet->getBillet($typeBillet);
 
       $prix = $commande->getPrix();
@@ -240,13 +223,13 @@ class DefaultController extends Controller
       $barreCode = intval($jour+$mois+$annee+$id);
 
       
-      \Stripe\Stripe::setApiKey("sk_test_k8kLQzmIapAeThLZQFpCW5IO");
+      \Stripe\Stripe::setApiKey("sk_test_mHA783JyxDRB9hmTDRd2PhLR");
       $token = $_POST['stripeToken'];
 
 
       try {
         $charge = \Stripe\Charge::create(array(
-          "amount"      => $prixCent, // Amount in cents
+          "amount"      => $prixCent, 
           "currency"    => "eur",
           "source"      => $token,
           "description" => "Achat billet"
@@ -254,7 +237,7 @@ class DefaultController extends Controller
 
       $message = \Swift_Message::newInstance()
           ->setSubject('Votre commande')
-          ->setFrom('louvre-project@outlook.fr')
+          ->setFrom('project.louvre@gmail.com')
           ->setTo($commande->getEmail())
           ->setBody(
             $this->renderView('formformBundle:Emails:registration.html.twig', array('billet' => $billetString,'barreCode'=>$barreCode,'personnes' => $individus, 'individu' => $forBillet, 'date' => $date, 'commande'=>$commande)),'text/html');
@@ -268,7 +251,7 @@ class DefaultController extends Controller
         return $this->render("formformBundle:Default:validation.html.twig", array('prix'=>$prix));
 
       } catch(\Stripe\Error\Card $e) {
-        // The card has been declined
+        
       }
     }
 
