@@ -195,10 +195,10 @@ class DefaultController extends Controller
       if($billet == 1)$billet= "demi-journée";
       else $billet = "journée";
       $mailClient = $commande->getEmail();
-      return $this->render('formformBundle:Default:recapitulatif.html.twig', array( 'mailClient'=>$mailClient ,'date'=>$date, 'nbPlace'=>$nbPlace, 'personnes'=>$personnes, 'billet'=>$billet, 'prixTotal'=>$prixTotal));
+      return $this->render('formformBundle:Default:recapitulatif.html.twig', array('mailClient'=>$mailClient ,'date'=>$date, 'nbPlace'=>$nbPlace, 'personnes'=>$personnes, 'billet'=>$billet, 'prixTotal'=>$prixTotal));
     }
 
-    public function validationAction()
+    public function validationAction(Request $request)
     {
       $session = $this->get('session');
       $id=$session->get('id');
@@ -225,7 +225,6 @@ class DefaultController extends Controller
       
       \Stripe\Stripe::setApiKey("sk_test_mHA783JyxDRB9hmTDRd2PhLR");
       $token = $_POST['stripeToken'];
-
 
       try {
         $charge = \Stripe\Charge::create(array(

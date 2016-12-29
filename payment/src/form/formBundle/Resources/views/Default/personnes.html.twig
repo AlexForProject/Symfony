@@ -11,7 +11,7 @@
 {% block commande %}
 
 
-  +<div class="well">
+  <div class="well">
    <h2>Ajout des individus </h2>
      {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
    <div class="form-group">
@@ -31,8 +31,7 @@
   <script type="text/javascript">
     $(document).ready(function() {
 
-    $(".control-label").wrapInner('<h2></h2>');
-    
+    $(".control-label").wrapInner('<h2></h2>');   
 
       var $container = $('div#form_individus');
 
@@ -75,11 +74,20 @@
         $prototype.append($deleteLink);
 
         $deleteLink.click(function(e) {
+          index--;
+          var titre = 1; 
           $prototype.remove();
           $nombre = $container.find(':input').length;
           if($nombre === 0)
           {
             $("#form_commander").prop('disabled', true);
+          }
+          
+          var labelIndividu = $(document).find("label:contains('Individu numéro')");
+
+          for (var i = 0 ; i < labelIndividu.length ; i++)
+          {
+            labelIndividu.eq(i).html("Individu numéro n°"+(i+1));
           }
           e.preventDefault();
           return false;
