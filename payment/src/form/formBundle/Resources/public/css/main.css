@@ -1,0 +1,19 @@
+.form-horizontal .form-group
+{
+	margin-right: 0px;
+	margin-left: 0px;
+}
+#add_individu
+{
+	margin-bottom: 30px;
+}
+body
+{
+	background:url('http://larevue.thetops.fr/wp-content/uploads/2015/05/b0c8baecfa3c6325aa1f0a3417cbe362_large.jpeg') no-repeat;
+	background-attachment:fixed;
+	max-height: 1000px;
+}
+.well
+{
+	background-color: rgba(245, 245, 245, 0.9);
+}

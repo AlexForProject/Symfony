@@ -18,11 +18,11 @@
 		<p><b> Prix total : {{ prixTotal }}€</b></p>
 	</div>
 	<div class="col-xs-3">
-		<a href = "http://s647394915.onlinehome.fr/web/app.php" class = "btn btn-info">Retour</a>
+		<a href="{{ path('formform_homepage') }} " class="btn btn-info">Annuler la commande</a>
 	</div>
-	
-	<div class="col-xs-9">
-		<form action= "http://s647394915.onlinehome.fr/web/app.php/validation" method="POST">
+
+	<div class="col-xs-4 col-xs-offset-5">
+		<form action= "{{ path('formform_validation') }}" method="POST">
 			<script
 			  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 			  data-amount={{prixTotal*100}}

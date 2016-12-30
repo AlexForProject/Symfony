@@ -59,6 +59,10 @@ class DefaultController extends Controller
         if($form->isSubmitted() && $form->isValid())
         {
           $ajd = new \Datetime();
+          $ajdAnnee = $ajd->format('Y');
+          $ajdMois = $ajd->format('m');
+          $ajdJour = $ajd->format('d');
+          $ajdHeure = $ajd->format('H');
  
           $date=$form->get('date')->getData();
           $interval = $date->diff($ajd);
@@ -75,6 +79,12 @@ class DefaultController extends Controller
           $jourAnnee = $date->format('w');
           $jourMois = $date->format('d');
           $mois = $date->format('m');
+          $jourAnnee = $date->format('Y');
+
+          if(($jourAnnee == $ajdAnnee) && ($mois == $ajdMois) && ($jourMois == $ajdJour) && ($ajdHeure >= 14))
+          {
+            $commande->setBillet(1);
+          }
           
 
           if(($jourMois == 25 && $mois == 12) || ($jourMois == 01 && $mois = 05) || ($jourMois == 01 && $mois == 11) || $jourAnnee == 2 || $interval < 0)

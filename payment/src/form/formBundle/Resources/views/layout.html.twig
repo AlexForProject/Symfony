@@ -6,27 +6,11 @@
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    	<style type="text/css">
-    		.form-horizontal .form-group
-    		{
-    			margin-right: 0px;
-    			margin-left: 0px;
-			}
-			#add_individu
-			{
-				margin-bottom: 30px;
-			}
-			body
-			{
-				background:url('http://larevue.thetops.fr/wp-content/uploads/2015/05/b0c8baecfa3c6325aa1f0a3417cbe362_large.jpeg') no-repeat;
-				background-attachment:fixed;
-				max-height: 1000px;
-			}
-			.well
-			{
-			   background-color: rgba(245, 245, 245, 0.9);
-			}
-    	</style>
+
+		{% stylesheets '@formformBundle/Resources/public/css/main.css' %}
+		  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+		{% endstylesheets %}
+		
 	</head>
 	<body>
 		<div class="container">

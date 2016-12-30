@@ -24,7 +24,7 @@
 					<tr>
 						<th>Plus de 12 ans</th>
 						<th>16€</th>
-						<th>12</th>
+						<th>12€</th>
 					</tr>
 					<tr>
 						<th>60 ans et plus</th>
@@ -59,7 +59,7 @@
 		<p>A partir de 14H, il n'est plus possible de commander en journée complète pour le jour-même</p>
 	</div>
 	<br />
-	<a href="http://s647394915.onlinehome.fr/web/app.php/purge.php" class="btn btn-info">Purger</a>
+	<a href="{{ path('formform_purge') }} " class="btn btn-info">Purger</a>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
@@ -68,6 +68,8 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
+	var billet = $("#form_billet");
+	billet.prop('disabled', false);
   	var form = $('.form-control');
 	form.datepicker({
 		format: 'yyyy-mm-dd',
@@ -99,6 +101,10 @@
 			{
 				billet.prop('checked', true);
 				billet.prop('disabled', true);
+				jQuery("#mycheckbox").each(function(){
+				    if (jQuery(this).is(":checked")) 
+				        ReturnVal = true;
+				});
 			}
 			if(ajdDay != dpJour)
 			{
