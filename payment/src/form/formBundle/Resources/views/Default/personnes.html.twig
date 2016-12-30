@@ -17,14 +17,15 @@
    <div class="form-group">
    {{ form_row(form.individus) }}
      <a href="#" id="add_individu" class="btn btn-default">Ajouter un individu</a>
+     {{ form_row(form.email) }}
      {{ form_row(form.commander) }}
-     {{ form_widget(form.commander, {'attr': {'class': 'btn btn-info'}}) }}
+     {{ form_widget(form.commander) }}
    </div>  
      {{ form_end(form) }}
  </div>
   <br />
 
-  <a href="{{ path('formform_homepage') }} " class="btn btn-info">Retour</a>
+  <a href="{{ path('formform_homepage') }} " class="btn btn-warning">Retour</a>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
@@ -32,6 +33,7 @@
     $(document).ready(function() {
 
     $(".control-label").wrapInner('<h2></h2>');   
+    $('#form_commander').attr('class', 'btn btn-info');
 
       var $container = $('div#form_individus');
 
