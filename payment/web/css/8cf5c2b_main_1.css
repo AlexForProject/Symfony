@@ -11,7 +11,7 @@ body
 {
 	background:url('http://larevue.thetops.fr/wp-content/uploads/2015/05/b0c8baecfa3c6325aa1f0a3417cbe362_large.jpeg') no-repeat;
 	background-attachment:fixed;
-
+	max-height: 1000px;
 }
 .well
 {

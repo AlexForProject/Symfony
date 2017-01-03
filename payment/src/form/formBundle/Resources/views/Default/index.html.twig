@@ -61,20 +61,31 @@
 	<br />
 	<a href="{{ path('formform_purge') }} " class="btn btn-info">Purger</a>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/overcast/jquery-ui.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fr.min.js"></script>
 
 <script type="text/javascript">
 
   $(document).ready(function() {
+
 	var billet = $("#form_billet");
 	billet.prop('disabled', false);
   	var form = $('.form-control');
+
 	form.datepicker({
-		format: 'yyyy-mm-dd',
-		defaultDate: new Date("tomorrow")
+		dateFormat: "yy-mm-dd",
+		defaultDate: new Date("tomorrow"),
+		changeMonth: true,
+      	changeYear: true,
+		monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+		monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+		dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+		dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+		dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
 	});
+
   	var ajd = new Date();
 	var billet = $('#form_billet');
 

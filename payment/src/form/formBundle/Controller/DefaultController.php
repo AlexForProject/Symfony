@@ -79,9 +79,9 @@ class DefaultController extends Controller
           $jourAnnee = $date->format('w');
           $jourMois = $date->format('d');
           $mois = $date->format('m');
-          $jourAnnee = $date->format('Y');
+          $annee = $date->format('Y');
 
-          if(($jourAnnee == $ajdAnnee) && ($mois == $ajdMois) && ($jourMois == $ajdJour) && ($ajdHeure >= 14))
+          if(($annee == $ajdAnnee) && ($mois == $ajdMois) && ($jourMois == $ajdJour) && ($ajdHeure >= 14))
           {
             $commande->setBillet(1);
           }
@@ -175,7 +175,7 @@ class DefaultController extends Controller
             }
 
           $commande->setPrix($prixTotal);
-          $commande->setNbPlace($nbPlace+1);
+          $commande->setNbPlace($nbPlace);
           $em->persist($commande);
           $em->flush();
 

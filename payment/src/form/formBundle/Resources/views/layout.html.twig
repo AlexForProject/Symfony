@@ -4,7 +4,6 @@
 		<title>Commande</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
 		{% stylesheets '@formformBundle/Resources/public/css/main.css' %}
@@ -19,11 +18,11 @@
 				<p>Bienvenue sur la partie commande</p>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-4 col-md-4">
+				<div class="col-xs-12 col-sm-6 col-md-4">
 					{% block prix %}
 					{% endblock %}
 				</div>
-				<div class="col-xs-12 col-sm-8 col-md-8">
+				<div class="col-xs-12 col-sm-6 col-md-8">
 					{% block commande %}
 					{% endblock %}
 				</div>

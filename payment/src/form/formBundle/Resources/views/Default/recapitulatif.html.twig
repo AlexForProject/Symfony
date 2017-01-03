@@ -2,11 +2,48 @@
 
 
 {% block prix %}
+		<div class="well table-hover">
+			<p>Voici les tarifs disponibles :</p>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Catégorie</th>
+						<th>Journée</th>
+						<th>Demi-journée<th>
+					<tr>
+				<tbody>
+					<tr>
+						<th>Inférieur à 4 ans</th>
+						<th>Gratuit</th>
+						<th>Gratuit</th>
+					</tr>
+					<tr>
+						<th>Entre 4 et 12 ans</th>
+						<th>8€</th>
+						<th>6€</th>
+					</tr>
+					<tr>
+						<th>Plus de 12 ans</th>
+						<th>16€</th>
+						<th>12€</th>
+					</tr>
+					<tr>
+						<th>60 ans et plus</th>
+						<th>12€</th>
+						<th>9€</th>
+					</tr>
+					<tr>
+						<th>Etudiant, militaire, professeur...</th>
+						<th>10€</th>
+						<th>7.5€</th>
+					</tr>
+			</table>
+		</div>
 {% endblock %}
 
 {% block commande %}
 	<div class="well">
-		<p> Vous avez choisi {{ nbPlace-1 }} billet(s) de type {{ billet }} pour le <u>{{ date|date("d/m/Y") }}</u>.</p><br />
+		<p> Vous avez choisi {{ nbPlace }} billet(s) de type {{ billet }} pour le <u>{{ date|date("d/m/Y") }}</u>.</p><br />
 
 		<ul>
 		{% for individu in personnes %}

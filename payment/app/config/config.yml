@@ -72,7 +72,7 @@ swiftmailer:
     port:      "%mailer_port%"
     encryption: "%mailer_encryption%"
     host:       "%mailer_host%"
-    #auth_mode: "%mailer_auth_mode%"
+    auth_mode: "%mailer_auth_mode%"
     spool:     { type: memory }
 
 assetic:
