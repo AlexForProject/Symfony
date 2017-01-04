@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 class formPrix
 {
-	public function getPrix($date, $reduit, $duree)
+	public function getPrix($date, $reduit, $duree, $commande)
 	{
 		if($duree == 1)
 		{
@@ -16,8 +16,7 @@ class formPrix
 		{
 			$multiplicateur = 1;
 		}
-		$ajd = new \DateTime();
-		$resultat = $ajd->diff($date)->format('%Y');
+		$resultat = $commande->diff($date)->format('%Y');
 
 		if($reduit == 1)
 		{

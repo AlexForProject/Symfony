@@ -167,7 +167,7 @@ class DefaultController extends Controller
             {
               $session->set('individu', $individu);
               $individu->setCommande($commande);
-              $prix = $servicePrix->getPrix($individu->getAnniversaire(), $individu->getReduit(), $commande->getBillet());
+              $prix = $servicePrix->getPrix($individu->getAnniversaire(), $individu->getReduit(), $commande->getBillet(), $commande->getDate());
               $individu->setPrix($prix);
               $commande->addIndividus($individu);
               $em->persist($individu);
