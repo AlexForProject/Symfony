@@ -58,7 +58,7 @@
 		<a href="{{ path('formform_homepage') }} " class="btn btn-info">Annuler la commande</a>
 	</div>
 
-	<div class="col-xs-4 col-xs-offset-5">
+	<div class="col-xs-3 col-xs-offset-6">
 		<form action= "{{ path('formform_validation') }}" method="POST">
 			<script
 			  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -69,7 +69,7 @@
 			  data-image="https://s3.amazonaws.com/stripe-uploads/acct_19OvPSIvZQQWXweDmerchant-icon-1482222740075-dribbble-tree_1x.jpg"
 			  data-email="{{mailClient}}"
 			  data-locale="auto"
-			  data-label="Payer la commande"
+			  data-label="Confirmer"
 			  data-zip-code="true"
 			  data-currency="eur">
 			</script>
