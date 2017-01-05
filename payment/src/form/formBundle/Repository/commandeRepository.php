@@ -15,6 +15,7 @@ class commandeRepository extends \Doctrine\ORM\EntityRepository
 		$nbPlace=$this->createQueryBuilder('c')
 		->andwhere('c.date = :date')
 		->setParameter('date', $date)
+		->ANDWHERE('c.codeBarre > 0')
 		->SELECT('SUM(c.nbPlace) as somme')
 		->getQuery()
 		->getSingleScalarResult();
