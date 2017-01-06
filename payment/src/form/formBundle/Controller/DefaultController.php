@@ -72,7 +72,8 @@ class DefaultController extends Controller
           $session->set('daysInterval', $interval);
           
           $servicePrix = $this->container->get('form_form.prix');
-          $typeBillet = $servicePrix->getBillet($billet);
+          $serviceBillet = $this->container->get('form_form.billet');
+          $typeBillet = $serviceBillet->getBillet($billet);
           //$session->set('billet', $typeBillet);
 
           $repositoryCommande=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
@@ -163,11 +164,17 @@ class DefaultController extends Controller
           $prixTotal=0;
           $repositoryIndividu=$this->getDoctrine()->getManager()->getRepository('formformBundle:individu');
 
+          $prixBebe=$this->getParameter('prix_bebe');
+          $prixEnfant=$this->getParameter('prix_enfant');
+          $prixAdulte=$this->getParameter('prix_adulte');
+          $prixRetraite=$this->getParameter('prix_retraite');
+          $listePrix=array($prixBebe, $prixEnfant, $prixAdulte, $prixRetraite);
+
           foreach ($personnes as $individu)
             {
               $session->set('individu', $individu);
               $individu->setCommande($commande);
-              $prix = $servicePrix->getPrix($individu->getAnniversaire(), $individu->getReduit(), $commande->getBillet(), $commande->getDate());
+              $prix = $servicePrix->getPrix($individu->getAnniversaire(), $individu->getReduit(), $commande->getBillet(), $commande->getDate(), $listePrix);
               $individu->setPrix($prix);
               $commande->addIndividus($individu);
               $em->persist($individu);

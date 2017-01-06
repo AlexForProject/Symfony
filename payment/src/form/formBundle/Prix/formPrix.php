@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 class formPrix
 {
-	public function getPrix($date, $reduit, $duree, $commande)
+	public function getPrix($date, $reduit, $duree, $commande, $prix)
 	{
 		if($duree == 1)
 		{
@@ -27,34 +27,22 @@ class formPrix
 			switch ($resultat)
 			{
 				case ($resultat < 4):
-				return 0*$multiplicateur;
+				return $prix[0]*$multiplicateur;
 				break;
 
 				case($resultat > 4 && $resultat < 12):
-				return 8*$multiplicateur;
+				return $prix[1]*$multiplicateur;
 				break;
 
 				case($resultat > 12 && $resultat < 60):
-				return 16*$multiplicateur;
+				return $prix[2]*$multiplicateur;
 				break;
 
 				case($resultat > 60):
-				return 12*$multiplicateur;
+				return $prix[3]*$multiplicateur;
 				break;
 			}
 		}
 
-	}
-
-	public function getBillet($bool)
-	{
-		if($bool == 1)
-		{
-			return "demi-journée";
-		}
-		else
-		{
-			return "journée";
-		}
 	}
 }
