@@ -4,7 +4,7 @@ namespace form\formBundle\Billet;
 
 class formBillet
 {
-	public function getBillet($billet)
+	public static function getBillet($billet)
 	{
 		if($billet)
 		{

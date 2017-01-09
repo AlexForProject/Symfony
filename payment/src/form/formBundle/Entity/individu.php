@@ -37,7 +37,7 @@ class individu
     private $prenom;
 
     /**
-     * @var string
+     * @var boolean
      *
      * @ORM\Column(name="reduit", type="boolean")
      */
@@ -58,9 +58,9 @@ class individu
 
 
     /**
-     * @var prix
+     * @var float
      *
-     * @ORM\Column(name="prix", type="integer")
+     * @ORM\Column(name="prix", type="float")
      */
     private $prix;
 

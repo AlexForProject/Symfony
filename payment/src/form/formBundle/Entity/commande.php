@@ -44,9 +44,9 @@ class commande
     private $nbPlace;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="prix", type="integer")
+     * @ORM\Column(name="prix", type="float")
      */
     private $prix;
 
