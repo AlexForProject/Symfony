@@ -1,0 +1,5 @@
+parameters:
+    prix_bebe: 0
+    prix_enfant: 8
+    prix_adulte: 16
+    prix_retraite: 12

@@ -69,12 +69,10 @@ class DefaultController extends Controller
           $billet = $form->get('billet')->getData();
 
           $interval = $ajd->diff($date)->format('%R%a');
-          $session->set('daysInterval', $interval);
           
           $servicePrix = $this->container->get('form_form.prix');
           $serviceBillet = $this->container->get('form_form.billet');
           $typeBillet = $serviceBillet->getBillet($billet);
-          //$session->set('billet', $typeBillet);
 
           $repositoryCommande=$this->getDoctrine()->getManager()->getRepository('formformBundle:commande');
           $jourAnnee = $date->format('w');
@@ -204,13 +202,14 @@ class DefaultController extends Controller
       $personnes = $commande->getIndividus();
       
       $date=$commande->getdate();
-      $billet=$commande->getBillet();
+      $typeBillet=$commande->getBillet();
       $prixTotal=$commande->getPrix();
 
       $nbPlace=$commande->getNbPlace();
 
-      if($billet == 1)$billet= "demi-journée";
-      else $billet = "journée";
+      $serviceBillet = $this->container->get('form_form.billet');
+      $billet = $serviceBillet->getBillet($typeBillet);
+
       $mailClient = $commande->getEmail();
       return $this->render('formformBundle:Default:recapitulatif.html.twig', array('mailClient'=>$mailClient ,'date'=>$date, 'nbPlace'=>$nbPlace, 'personnes'=>$personnes, 'billet'=>$billet, 'prixTotal'=>$prixTotal));
     }

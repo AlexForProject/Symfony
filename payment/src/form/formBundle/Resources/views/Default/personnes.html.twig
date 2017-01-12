@@ -5,6 +5,8 @@
   <div class = "well" id="gauche">
     <p><b>Pour le {{date|date("d/m/Y")}}, vous avez commandé des billets de type {{ billet }}.</b></p><br />
     <p>Vous pouvez cliquer sur "Ajouter un individu" pour augmenter le nombre de personne et sur "Supprimer" pour en enlever.</p>
+    <br />
+    <p>Le jour de votre visite, un justificatif sera demandé pour les personnes bénéficiant du tarif réduit</p>
   </div>
 {% endblock %}
 
@@ -99,6 +101,8 @@
       function addEspace($id){
       	$id.append('<br />');
       }
+
+
 
     });
   </script>
