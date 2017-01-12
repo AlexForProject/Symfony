@@ -31,7 +31,11 @@
 
 				{% for individu in personnes %}
 				<ul>
-					<li>{{ individu.prenom }}, {{ individu.nom }} né(e) le {{ individu.anniversaire|date("d/m/Y") }}</li>
+					{% if individu.reduit == true %}
+					<li>{{ individu.prenom }}, {{ individu.nom }} né(e) le {{ individu.anniversaire|date("d/m/Y") }}, tarif réduit</li>
+					{% else %}
+					<li>{{ individu.prenom }}, {{ individu.nom }} né(e) le {{ individu.anniversaire|date("d/m/Y") }}</li>					
+					{% endif %}
 				</ul>
 				{% endfor %}
 				<br />
