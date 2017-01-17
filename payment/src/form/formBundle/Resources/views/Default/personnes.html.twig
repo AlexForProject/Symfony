@@ -47,6 +47,7 @@
         return false;
       });
 
+
       $('#add_individu').click(function(){
           $("#form_commander").prop('disabled', false);
       })
@@ -102,6 +103,16 @@
       	$id.append('<br />');
       }
 
+      var h2 = $(document).find("h2");
+
+
+      for(var i = 0 ; i < h2.length ; i ++)
+      {
+        if(h2.eq(i).html() === "0")
+        {
+          window.location = " {{ path('formform_homepage') }} ";
+        }
+      }
 
 
     });

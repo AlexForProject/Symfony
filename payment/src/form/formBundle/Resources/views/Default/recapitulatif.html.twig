@@ -55,7 +55,7 @@
 		<p><b> Prix total : {{ prixTotal }}€</b></p>
 	</div>
 	<div class="col-xs-3">
-		<a href="{{ path('formform_homepage') }} " class="btn btn-info">Annuler la commande</a>
+		<a href="{{ path('formform_homepage') }} " class="btn btn-info" id = "annuler">Annuler la commande</a>
 	</div>
 
 	<div class="col-xs-3 col-xs-offset-6">
@@ -75,4 +75,22 @@
 			</script>
 		</form>
 	</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+	window.onpopstate = function(event)
+	{
+	    if (event.state)
+	    {
+	    	event.preventDefault;
+	    	console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+	        $('#annuler').click();
+	    }
+	};
+
+	});
+</script>
 {% endblock %}
